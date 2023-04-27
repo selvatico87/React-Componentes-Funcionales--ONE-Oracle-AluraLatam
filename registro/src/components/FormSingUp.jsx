@@ -12,6 +12,19 @@ function FormSingUp(props){
   const [email,setEmail]=useState("")
   const [prom, setProm]=useState(true)
   const [nov, setNov]=useState(false)
+  const [errors, setErrors]=useState({
+    name:{
+      error: false,
+      helperText: "Deben ser al menos 3 caracteres",
+    }
+  })
+  function validarNombre(nombre){
+      if (nombre.length>=3){
+        return{name:{error:false,helperText:""}}
+      }else{
+        return{name:{error:true,helperText:"Deben ser al menos 3 caracteres"}}
+      }
+  }
   return (
     <form onSubmit={(e)=> {
       e.preventDefault()
@@ -33,6 +46,10 @@ function FormSingUp(props){
           setName(e.target.value)
         }}
         value={name} 
+        error={errors.name.error}
+        helperText={errors.name.error?errors.name.helperText:""}
+        onBlur={(e)=>setErrors(validarNombre(e.target.value))}
+        required
       />
       <TextField 
         id="last-name" 
