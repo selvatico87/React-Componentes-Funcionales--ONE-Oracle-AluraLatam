@@ -5,10 +5,24 @@ import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-function FormSingUp(){
+function FormSingUp(props){
+  const {handelSubmit} = props
   const [name,setName]=useState("")
+  const [lastName,setLastName]=useState("")
+  const [email,setEmail]=useState("")
+  const [prom, setProm]=useState(true)
+  const [nov, setNov]=useState(false)
   return (
-    <form>
+    <form onSubmit={(e)=> {
+      e.preventDefault()
+      handelSubmit({
+        name,
+        lastName,
+        email,
+        prom,
+        nov}
+        )}
+      }>
       <TextField 
         id="name" 
         label="Nombre" 
@@ -16,7 +30,6 @@ function FormSingUp(){
         fullWidth={true}
         margin='normal'
         onChange={(e)=>{
-          console.log(e.target.value) 
           setName(e.target.value)
         }}
         value={name} 
@@ -27,6 +40,8 @@ function FormSingUp(){
         variant="outlined"
         fullWidth  
         margin='normal'
+        value={lastName}
+        onChange={(e)=>setLastName(e.target.value)}
       />
       <TextField 
         id="email" 
@@ -35,19 +50,21 @@ function FormSingUp(){
         variant="outlined" 
         fullWidth
         margin='normal'
+        value={email}
+        onChange={(e)=>setEmail(e.target.value)}
       />
       <FormGroup>
         <FormControlLabel 
-          control={<Switch defaultChecked />}
+          control={<Switch  checked={prom} onChange={(e)=>setProm(e.target.checked)} />}
           label="Promociones"
         />
         <FormControlLabel 
-          control={<Switch defaultChecked />}
+          control={<Switch checked={nov} onChange={(e)=>setNov(e.target.checked)} />}
           label="Novedades"
         />
       </FormGroup>
 
-      <Button variant='contained' color='success'>Registrarse</Button>
+      <Button variant='contained' color='success' type='submit'>Registrarse</Button>
     </form>
   )
 }
